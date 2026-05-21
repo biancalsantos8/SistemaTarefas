@@ -34,8 +34,8 @@ namespace SistemaTarefa.Controllers
             return Ok(tarefas);
         }
 
-        [HttpGet("tarefasCliente/{id}")]
-        public IActionResult TarefasCliente(int Id)
+        [HttpGet("tarefasCliente")]
+        public IActionResult TarefasCliente()
         {
             var clientes = HttpContext.Session.GetString("IdCliente");
 
@@ -44,15 +44,14 @@ namespace SistemaTarefa.Controllers
             var resultado = from c in _context.Cliente
                             join t in _context.Tarefa
                             on c.Id equals t.IdCliente
-                            where Id == c.Id
+                            where int.Parse( clientes ) == c.Id
                             select new
                             {
                                 Cliente = c.Nome,
                                 c.Email,
-                                c.Senha,
                                 Tarefas = t.Descricao,
                                 t.Status,
-                                t.IdCliente,
+                                t.Id
 
                             };
             return Ok(resultado.ToList());
