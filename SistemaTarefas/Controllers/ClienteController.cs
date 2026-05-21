@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SistemaTarefas.Data;
 using SistemaTarefas.Models;
 namespace SistemaTarefas.Controllers
@@ -77,12 +76,13 @@ namespace SistemaTarefas.Controllers
                 return Unauthorized("Usuário ou senha Inválidos!");
             }
             HttpContext.Session.SetString("IdCliente", Convert.ToString(clientes[0].Id));
-            Response.Cookies.Append("IdCliente", Convert.ToString(clientes[0].Id));
-            new CookieOptions
+            Response.Cookies.Append("IdCliente", clientes [0].Id.ToString(),
+           new CookieOptions
             {
-                Expires = DateTime.Now.AddMinutes(10),
-                HttpOnly = true
-            };
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
             return Ok("login realizado com sucesso");
 
         }
